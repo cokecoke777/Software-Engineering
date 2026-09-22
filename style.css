@@ -134,8 +134,6 @@ body.dark .topbar .quiet:hover { background: #344450; }
 .column-head .dot { margin-top: 6px; position: relative; z-index: 1; }
 .column-head h2 { flex: 0 0 auto; position: relative; z-index: 1; }
 .column-head .count { margin-left: 2px; position: relative; z-index: 1; }
-.column-ornament { position: absolute; top: -12px; right: -16px; width: 220px; height: 78px; object-fit: contain; object-position: right center; pointer-events: none; opacity: .78; }
-body.dark .column-ornament { opacity: .55; }
 .card { position: relative; overflow: hidden; min-height: 128px; }
 .card:focus-visible { outline: 3px solid #7294ba; outline-offset: 2px; }
 .card.priority-high { background: #fff0ed; border-color: #f0cbc4; }
@@ -175,5 +173,53 @@ body.dark .card-actions button { background: #f2eee8; border-color: #d2c8c0; col
 body.dark .card-actions .delete { color: #a3433f; }
 @media (max-width: 600px) {
   body.dark .hero-content { background: #1d2832d9; }
-  .column-ornament { width: 190px; }
+}
+
+/* Full notebook headers and compact task cards. */
+.column {
+  min-height: 340px;
+  padding: 0 16px 18px;
+  overflow: hidden;
+  border-left-width: 5px;
+  border-radius: 12px;
+  background: #fffdf8;
+  box-shadow: 0 9px 23px #6e625719;
+}
+.column.todo { border-left-color: #c68b72; }
+.column.doing { border-left-color: #7895b4; }
+.column.done { border-left-color: #8ba685; }
+.column-head {
+  margin: 0 -16px 0 -16px;
+  padding: 43px 22px 27px 43px;
+  min-height: 136px;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.todo .column-head { background-image: url('./assets/notebook-todo.webp'); }
+.doing .column-head { background-image: url('./assets/notebook-doing.webp'); }
+.done .column-head { background-image: url('./assets/notebook-done.webp'); }
+.column-head .dot { width: 11px; height: 11px; margin-top: 0; flex: 0 0 auto; }
+.column-head h2 { font-size: 21px; font-weight: 850; color: #26394b; letter-spacing: .035em; text-shadow: 0 1px #fffcf6; }
+.column-head .count { margin-left: 3px; background: #ffffffd9; color: #334960; font-weight: 800; font-size: 13px; padding: 4px 10px; box-shadow: 0 2px 8px #74685b1a; }
+.cards { min-height: 172px; padding-top: 9px; gap: 9px; }
+.card { min-height: 0; padding: 11px 14px 12px; }
+.card .priority { font-size: 10px; padding: 4px 7px; }
+.card h3 { margin: 8px 0 3px; font-size: 15px; line-height: 1.38; }
+.card p { margin: 0; font-size: 12px; line-height: 1.45; }
+.empty { padding: 52px 10px; }
+body.dark .column { background: #222c35; border-color: #394650; }
+body.dark .column.todo { border-left-color: #9f6e5f; }
+body.dark .column.doing { border-left-color: #6c88a3; }
+body.dark .column.done { border-left-color: #779079; }
+body.dark .column-head::before { content: ''; position: absolute; inset: 0; background: #17232cc2; pointer-events: none; }
+body.dark .column-head h2 { color: #f7efe4; text-shadow: none; }
+body.dark .column-head .count { background: #263744e8; color: #f5f0e8; }
+@media (max-width: 900px) {
+  .column { min-height: 270px; }
+  .column-head { min-height: 132px; }
+  .cards { min-height: 100px; }
 }

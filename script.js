@@ -80,8 +80,7 @@ function render() {
     const label = document.createElement('h2'); label.textContent = column.label;
     const count = document.createElement('span'); count.className = 'count';
     const items = tasks.filter(task => task.status === column.id); count.textContent = items.length;
-    const ornament = document.createElement('img'); ornament.className = 'column-ornament'; ornament.src = `./assets/ornament-${column.id}.png`; ornament.alt = ''; ornament.setAttribute('aria-hidden', 'true');
-    heading.append(dot, label, count, ornament); section.append(heading);
+    heading.append(dot, label, count); section.append(heading);
     const cards = document.createElement('div'); cards.className = 'cards';
     if (items.length) items.forEach(task => cards.append(renderCard(task)));
     else { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '拖动任务到这里'; cards.append(empty); }
