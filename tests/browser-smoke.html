@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><title>Browser smoke test</title>
+<iframe id="app" src="../index.html" style="width:100%;height:600px"></iframe>
+<pre id="result">RUNNING</pre>
+<script>
+const frame = document.querySelector('#app');
+let phase = 0;
+frame.addEventListener('load', () => {
+  const w = frame.contentWindow, d = w.document;
+  const check = (ok, message) => { if (!ok) throw Error(message); };
+  try {
+    if (phase === 0) {
+      w.localStorage.clear();
+      d.querySelector('#add-task').click();
+      d.querySelector('#task-title').value = '测试任务';
+      d.querySelector('#task-description').value = '测试描述';
+      d.querySelector('#task-priority').value = 'high';
+      d.querySelector('#task-form').requestSubmit();
+      check(d.querySelector('#total-count').textContent === '1', '新增任务');
+      check(d.querySelector('.priority').textContent === '高优先级', '优先级');
+      d.querySelector('.card-actions button').click();
+      d.querySelector('#task-title').value = '已编辑任务';
+      d.querySelector('#task-form').requestSubmit();
+      check(d.querySelector('.card h3').textContent === '已编辑任务', '编辑任务');
+      const card = d.querySelector('.card');
+      const transfer = new DataTransfer();
+      card.dispatchEvent(new DragEvent('dragstart', {bubbles:true,dataTransfer:transfer}));
+      d.querySelector('.column.doing').dispatchEvent(new DragEvent('drop', {bubbles:true,dataTransfer:transfer}));
+      check(d.querySelector('.column.doing .card h3')?.textContent === '已编辑任务', '拖拽改状态');
+      d.querySelector('#theme-toggle').click();
+      check(d.body.classList.contains('dark'), '深色模式');
+      phase = 1; w.location.reload();
+    } else {
+      check(d.querySelector('.column.doing .card h3')?.textContent === '已编辑任务', '刷新后任务保留');
+      check(d.body.classList.contains('dark'), '刷新后主题保留');
+      w.confirm = () => true;
+      d.querySelector('.card-actions .delete').click();
+      check(d.querySelector('#total-count').textContent === '0', '删除任务');
+      document.querySelector('#result').textContent = 'PASS: 新增、编辑、删除、优先级、拖拽、深色模式、刷新持久化';
+    }
+  } catch (error) { document.querySelector('#result').textContent = `FAIL: ${error.message}`; }
+});
+</script>
