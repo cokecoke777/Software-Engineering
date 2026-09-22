@@ -1,0 +1,106 @@
+const STORAGE_KEY = 'class-task-board-v1';
+const THEME_KEY = 'class-task-board-theme';
+const columns = [
+  { id: 'todo', label: '待办' },
+  { id: 'doing', label: '进行中' },
+  { id: 'done', label: '完成' },
+];
+const priorities = { high: '高优先级', medium: '中优先级', low: '低优先级' };
+const board = document.querySelector('#board');
+const dialog = document.querySelector('#task-dialog');
+const form = document.querySelector('#task-form');
+const titleInput = document.querySelector('#task-title');
+const descriptionInput = document.querySelector('#task-description');
+const statusInput = document.querySelector('#task-status');
+const priorityInput = document.querySelector('#task-priority');
+let editingId = null;
+let draggedId = null;
+
+function loadTasks() {
+  try {
+    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return Array.isArray(value) ? value.filter(task => task && typeof task.id === 'string' && typeof task.title === 'string' && columns.some(col => col.id === task.status)) : [];
+  } catch { return []; }
+}
+let tasks = loadTasks();
+
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+function makeId() { return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`; }
+function makeButton(text, label, onClick, className = '') {
+  const button = document.createElement('button');
+  button.type = 'button'; button.textContent = text; button.setAttribute('aria-label', label);
+  button.className = className; button.addEventListener('click', onClick);
+  return button;
+}
+function renderCard(task) {
+  const card = document.createElement('article');
+  card.className = 'card'; card.draggable = true; card.dataset.id = task.id;
+  card.addEventListener('dragstart', event => { draggedId = task.id; card.classList.add('dragging'); event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', task.id); });
+  card.addEventListener('dragend', () => { draggedId = null; card.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over')); });
+  const top = document.createElement('div'); top.className = 'card-top';
+  const badge = document.createElement('span'); badge.className = `priority ${priorities[task.priority] ? task.priority : 'medium'}`; badge.textContent = priorities[task.priority] || priorities.medium; top.append(badge);
+  const heading = document.createElement('h3'); heading.textContent = task.title;
+  card.append(top, heading);
+  if (task.description) { const description = document.createElement('p'); description.textContent = task.description; card.append(description); }
+  const actions = document.createElement('div'); actions.className = 'card-actions';
+  actions.append(makeButton('编辑', `编辑${task.title}`, () => openEditor(task)));
+  actions.append(makeButton('删除', `删除${task.title}`, () => {
+    if (!confirm(`确定删除“${task.title}”吗？`)) return;
+    tasks = tasks.filter(item => item.id !== task.id); save(); render();
+  }, 'delete'));
+  card.append(actions); return card;
+}
+function render() {
+  board.replaceChildren();
+  for (const column of columns) {
+    const section = document.createElement('section'); section.className = `column ${column.id}`; section.dataset.status = column.id;
+    const heading = document.createElement('div'); heading.className = 'column-head';
+    const dot = document.createElement('span'); dot.className = 'dot';
+    const label = document.createElement('h2'); label.textContent = column.label;
+    const count = document.createElement('span'); count.className = 'count';
+    const items = tasks.filter(task => task.status === column.id); count.textContent = items.length;
+    heading.append(dot, label, count); section.append(heading);
+    const cards = document.createElement('div'); cards.className = 'cards';
+    if (items.length) items.forEach(task => cards.append(renderCard(task)));
+    else { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '拖动任务到这里'; cards.append(empty); }
+    section.append(cards);
+    section.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; section.classList.add('drag-over'); });
+    section.addEventListener('dragleave', event => { if (!section.contains(event.relatedTarget)) section.classList.remove('drag-over'); });
+    section.addEventListener('drop', event => {
+      event.preventDefault(); section.classList.remove('drag-over');
+      const id = draggedId || event.dataTransfer.getData('text/plain');
+      const task = tasks.find(item => item.id === id);
+      if (task && task.status !== column.id) { task.status = column.id; save(); render(); }
+    });
+    board.append(section);
+  }
+  document.querySelector('#total-count').textContent = tasks.length;
+  document.querySelector('#active-count').textContent = tasks.filter(task => task.status === 'doing').length;
+  document.querySelector('#done-count').textContent = tasks.filter(task => task.status === 'done').length;
+}
+function openEditor(task = null) {
+  editingId = task?.id || null;
+  document.querySelector('#dialog-title').textContent = task ? '编辑任务' : '新建任务';
+  titleInput.value = task?.title || ''; descriptionInput.value = task?.description || '';
+  statusInput.value = task?.status || 'todo'; priorityInput.value = task?.priority || 'medium';
+  dialog.showModal(); titleInput.focus();
+}
+document.querySelector('#add-task').addEventListener('click', () => openEditor());
+document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
+document.querySelector('#cancel-dialog').addEventListener('click', () => dialog.close());
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const title = titleInput.value.trim();
+  if (!title) { titleInput.setCustomValidity('请填写任务标题'); titleInput.reportValidity(); return; }
+  titleInput.setCustomValidity('');
+  const data = { title, description: descriptionInput.value.trim(), status: statusInput.value, priority: priorityInput.value };
+  if (editingId) { const task = tasks.find(item => item.id === editingId); if (task) Object.assign(task, data); }
+  else tasks.unshift({ id: makeId(), ...data });
+  save(); render(); dialog.close();
+});
+titleInput.addEventListener('input', () => titleInput.setCustomValidity(''));
+const themeButton = document.querySelector('#theme-toggle');
+function setTheme(theme) { document.body.classList.toggle('dark', theme === 'dark'); themeButton.textContent = theme === 'dark' ? '☀ 浅色模式' : '☾ 深色模式'; localStorage.setItem(THEME_KEY, theme); }
+setTheme(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light');
+themeButton.addEventListener('click', () => setTheme(document.body.classList.contains('dark') ? 'light' : 'dark'));
+render();
