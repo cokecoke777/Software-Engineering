@@ -123,7 +123,7 @@ body.dark .card-actions button:hover { background: #354251; }
 
 /* Focused refinements: themed hero, status ornaments, and priority-colored task cards. */
 body.dark .topbar { background: #1d2832; box-shadow: 0 15px 36px #050a0e45; }
-body.dark .hero-art { filter: brightness(.27) saturate(.8); }
+body.dark .hero-art { filter: brightness(.42) saturate(.88); }
 body.dark .eyebrow { color: #dfa58e; }
 body.dark h1 { color: #f3eee8; }
 body.dark h1 em { color: #eeaa90; }
@@ -216,7 +216,7 @@ body.dark .column { background: #2b3945 url('./assets/paper-texture.webp') repea
 body.dark .column.todo { border-left-color: #9f6e5f; }
 body.dark .column.doing { border-left-color: #6c88a3; }
 body.dark .column.done { border-left-color: #779079; }
-body.dark .column-head::before { content: ''; position: absolute; inset: 0; background: #17232ce8; pointer-events: none; }
+body.dark .column-head::before { content: ''; position: absolute; inset: 0; background: #17232cc4; pointer-events: none; }
 body.dark .column-head h2 { color: #f7efe4; text-shadow: none; }
 body.dark .column-head .count { background: #263744e8; color: #f5f0e8; }
 @media (max-width: 900px) {
@@ -224,3 +224,18 @@ body.dark .column-head .count { background: #263744e8; color: #f5f0e8; }
   .column-head { min-height: 132px; }
   .cards { min-height: 100px; }
 }
+
+
+/* Warm workspace and straight-edged priority paper cards. */
+:root { background: #f3eadd; }
+body { min-height: 100vh; background: #f3eadd; }
+body.dark { background: #151c24; }
+.card { border-radius: 0; box-shadow: 2px 3px 0 #66554512; }
+.card:hover { box-shadow: 3px 5px 0 #6655451a; }
+.card.priority-high { background: #fbe6e3 url('./assets/card-high-paper.webp') repeat; background-size: 320px 320px; border-color: #edc4be; }
+.card.priority-medium { background: #fff1d3 url('./assets/card-medium-paper.webp') repeat; background-size: 320px 320px; border-color: #e8d59d; }
+.card.priority-low { background: #e9f4e8 url('./assets/card-low-paper.webp') repeat; background-size: 320px 320px; border-color: #c9dfc9; }
+.card .priority, .card-actions, .card-actions button { border-radius: 0; }
+body.dark .card.priority-high { background: #593b40 url('./assets/card-high-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #9a676d; }
+body.dark .card.priority-medium { background: #5d5137 url('./assets/card-medium-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #9a8455; }
+body.dark .card.priority-low { background: #355344 url('./assets/card-low-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #62836e; }
