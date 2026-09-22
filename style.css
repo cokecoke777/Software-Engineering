@@ -182,7 +182,8 @@ body.dark .card-actions .delete { color: #a3433f; }
   overflow: hidden;
   border-left-width: 5px;
   border-radius: 12px;
-  background: #fffdf8;
+  background: #fffdf8 url('./assets/paper-texture.webp') repeat;
+  background-size: 360px 360px;
   box-shadow: 0 9px 23px #6e625719;
 }
 .column.todo { border-left-color: #c68b72; }
@@ -195,13 +196,13 @@ body.dark .card-actions .delete { color: #a3433f; }
   align-items: center;
   gap: 10px;
   border: 0;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
 }
-.todo .column-head { background-image: url('./assets/notebook-todo.webp'); }
-.doing .column-head { background-image: url('./assets/notebook-doing.webp'); }
-.done .column-head { background-image: url('./assets/notebook-done.webp'); }
+.todo .column-head { background-image: url('./assets/notebook-todo-v2.webp'); }
+.doing .column-head { background-image: url('./assets/notebook-doing-v2.webp'); }
+.done .column-head { background-image: url('./assets/notebook-done-v2.webp'); }
 .column-head .dot { width: 11px; height: 11px; margin-top: 0; flex: 0 0 auto; }
 .column-head h2 { font-size: 21px; font-weight: 850; color: #26394b; letter-spacing: .035em; text-shadow: 0 1px #fffcf6; }
 .column-head .count { margin-left: 3px; background: #ffffffd9; color: #334960; font-weight: 800; font-size: 13px; padding: 4px 10px; box-shadow: 0 2px 8px #74685b1a; }
@@ -211,11 +212,11 @@ body.dark .card-actions .delete { color: #a3433f; }
 .card h3 { margin: 8px 0 3px; font-size: 15px; line-height: 1.38; }
 .card p { margin: 0; font-size: 12px; line-height: 1.45; }
 .empty { padding: 52px 10px; }
-body.dark .column { background: #222c35; border-color: #394650; }
+body.dark .column { background: #2b3945 url('./assets/paper-texture.webp') repeat; background-size: 360px 360px; background-blend-mode: multiply; border-color: #394650; }
 body.dark .column.todo { border-left-color: #9f6e5f; }
 body.dark .column.doing { border-left-color: #6c88a3; }
 body.dark .column.done { border-left-color: #779079; }
-body.dark .column-head::before { content: ''; position: absolute; inset: 0; background: #17232cc2; pointer-events: none; }
+body.dark .column-head::before { content: ''; position: absolute; inset: 0; background: #17232ce8; pointer-events: none; }
 body.dark .column-head h2 { color: #f7efe4; text-shadow: none; }
 body.dark .column-head .count { background: #263744e8; color: #f5f0e8; }
 @media (max-width: 900px) {
