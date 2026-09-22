@@ -120,3 +120,60 @@ body.dark .card-actions button:hover { background: #354251; }
   .summary span { font-size: 11px; }
   .board-heading { align-items: start; flex-direction: column; gap: 7px; }
 }
+
+/* Focused refinements: themed hero, status ornaments, and priority-colored task cards. */
+body.dark .topbar { background: #1d2832; box-shadow: 0 15px 36px #050a0e45; }
+body.dark .hero-art { filter: brightness(.27) saturate(.8); }
+body.dark .eyebrow { color: #dfa58e; }
+body.dark h1 { color: #f3eee8; }
+body.dark h1 em { color: #eeaa90; }
+body.dark .subtitle { color: #d4d5d2; }
+body.dark .topbar .quiet { background: #25333ee8; border-color: #66717a; color: #f3eee8; }
+body.dark .topbar .quiet:hover { background: #344450; }
+.column-head { position: relative; overflow: hidden; min-height: 74px; align-items: flex-start; padding-top: 8px; }
+.column-head .dot { margin-top: 6px; position: relative; z-index: 1; }
+.column-head h2 { flex: 0 0 auto; position: relative; z-index: 1; }
+.column-head .count { margin-left: 2px; position: relative; z-index: 1; }
+.column-ornament { position: absolute; top: -12px; right: -16px; width: 220px; height: 78px; object-fit: contain; object-position: right center; pointer-events: none; opacity: .78; }
+body.dark .column-ornament { opacity: .55; }
+.card { position: relative; overflow: hidden; min-height: 128px; }
+.card:focus-visible { outline: 3px solid #7294ba; outline-offset: 2px; }
+.card.priority-high { background: #fff0ed; border-color: #f0cbc4; }
+.card.priority-medium { background: #fff7e9; border-color: #eddfbf; }
+.card.priority-low { background: #edf8f0; border-color: #cde8d5; }
+.card.priority-high:hover { border-color: #dfa89e; }
+.card.priority-medium:hover { border-color: #d9c68f; }
+.card.priority-low:hover { border-color: #a6d5b5; }
+.card.priority-high .priority.high { background: #f7dcd6; }
+.card.priority-medium .priority.medium { background: #f6e7bd; }
+.card.priority-low .priority.low { background: #d8eddd; }
+.card-actions {
+  position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0;
+  border: 0; border-radius: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 11px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .16s, visibility .16s;
+}
+.priority-high .card-actions { background: #fff0edf2; }
+.priority-medium .card-actions { background: #fff7e9f2; }
+.priority-low .card-actions { background: #edf8f0f2; }
+.card.actions-visible .card-actions { opacity: 1; visibility: visible; pointer-events: auto; }
+.card-actions button { min-width: 82px; padding: 10px 13px; background: #ffffffeb; border: 1px solid #d9d5cb; color: #344960; font-size: 13px; box-shadow: 0 3px 10px #413a3212; }
+.card-actions button:hover { background: #fff; color: #274967; }
+.card-actions .delete { color: #b95048; border-color: #e9c6c0; }
+.card-actions .delete:hover { background: #fff; color: #a33d38; }
+body.dark .card.priority-high { background: #483238; border-color: #7e4a50; }
+body.dark .card.priority-medium { background: #494234; border-color: #816c45; }
+body.dark .card.priority-low { background: #30473c; border-color: #527966; }
+body.dark .card.priority-high .priority.high { color: #ffbdb3; background: #623e43; }
+body.dark .card.priority-medium .priority.medium { color: #f1d08b; background: #63543b; }
+body.dark .card.priority-low .priority.low { color: #acd9b8; background: #3d5d4d; }
+body.dark .priority-high .card-actions { background: #483238f2; }
+body.dark .priority-medium .card-actions { background: #494234f2; }
+body.dark .priority-low .card-actions { background: #30473cf2; }
+body.dark .card-actions button { background: #f2eee8; border-color: #d2c8c0; color: #293e52; }
+body.dark .card-actions .delete { color: #a3433f; }
+@media (max-width: 600px) {
+  body.dark .hero-content { background: #1d2832d9; }
+  .column-ornament { width: 190px; }
+}

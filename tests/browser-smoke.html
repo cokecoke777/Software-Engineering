@@ -17,6 +17,9 @@ frame.addEventListener('load', () => {
       d.querySelector('#task-form').requestSubmit();
       check(d.querySelector('#total-count').textContent === '1', '新增任务');
       check(d.querySelector('.priority').textContent === '高优先级', '优先级');
+      check(d.querySelector('.card').classList.contains('priority-high'), '整卡优先级颜色');
+      d.querySelector('.card').click();
+      check(d.querySelector('.card').classList.contains('actions-visible'), '点击卡片显示操作');
       d.querySelector('.card-actions button').click();
       d.querySelector('#task-title').value = '已编辑任务';
       d.querySelector('#task-form').requestSubmit();
@@ -33,6 +36,8 @@ frame.addEventListener('load', () => {
       check(d.querySelector('.column.doing .card h3')?.textContent === '已编辑任务', '刷新后任务保留');
       check(d.body.classList.contains('dark'), '刷新后主题保留');
       w.confirm = () => true;
+      d.querySelector('.card').click();
+      check(d.querySelector('.card').classList.contains('actions-visible'), '刷新后卡片操作');
       d.querySelector('.card-actions .delete').click();
       check(d.querySelector('#total-count').textContent === '0', '删除任务');
       document.querySelector('#result').textContent = 'PASS: 新增、编辑、删除、优先级、拖拽、深色模式、刷新持久化';
