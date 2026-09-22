@@ -21,3 +21,7 @@
 ## 浏览器验证
 
 运行 `python -m http.server 8000`，访问 `http://localhost:8000/tests/browser-smoke.html`，页面显示 PASS 表示核心交互通过。测试会清除当前站点的任务数据，请用独立浏览器配置运行。
+
+## 视觉改版
+
+新增原创 AI 插画 `assets/task-hero.png`，重新安排页面标题、统计与看板的视觉层次。图片由内置 ImageGen 生成，提示词要点：暖白纸张任务清单、珊瑚色铅笔、蓝色缎带、右侧主体、左侧留白、无文字。应用功能和 `localStorage` 键保持不变。

@@ -9,12 +9,13 @@
 <body>
   <div class="app">
     <header class="topbar">
-      <div><p class="eyebrow">MY WORKSPACE</p><h1>任务看板</h1><p class="subtitle">把想法拆成任务，一步一步完成。</p></div>
+      <img class="hero-art" src="./assets/task-hero.png" alt="" aria-hidden="true" />
+      <div class="hero-content"><p class="eyebrow">A LITTLE PROGRESS, EVERY DAY</p><h1>让每件事<br><em>有条不紊。</em></h1><p class="subtitle">把待办放在眼前，让完成自然发生。</p></div>
       <div class="header-actions"><button id="theme-toggle" class="quiet" type="button" aria-label="切换深色模式">☾ 深色模式</button><button id="add-task" class="primary" type="button">＋ 新建任务</button></div>
     </header>
     <main>
       <section class="summary" aria-label="任务概览"><div><strong id="total-count">0</strong><span>全部任务</span></div><div><strong id="active-count">0</strong><span>进行中</span></div><div><strong id="done-count">0</strong><span>已完成</span></div></section>
-      <div class="board" id="board"></div>
+      <div class="board-heading"><div><p class="section-kicker">YOUR BOARD</p><h2>任务进度</h2></div><p>拖动卡片，即可更新任务状态</p></div><div class="board" id="board"></div>
     </main>
   </div>
   <dialog id="task-dialog"><form id="task-form" method="dialog"><div class="dialog-head"><h2 id="dialog-title">新建任务</h2><button id="close-dialog" class="icon" type="button" aria-label="关闭">×</button></div><label>任务标题 <span class="required">*</span><input id="task-title" maxlength="100" required placeholder="例如：完成课堂实践演示" /></label><label>描述 <span class="optional">选填</span><textarea id="task-description" rows="4" maxlength="500" placeholder="补充任务内容"></textarea></label><div class="form-row"><label>状态<select id="task-status"><option value="todo">待办</option><option value="doing">进行中</option><option value="done">完成</option></select></label><label>优先级<select id="task-priority"><option value="medium">中</option><option value="high">高</option><option value="low">低</option></select></label></div><div class="dialog-actions"><button id="cancel-dialog" class="quiet" type="button">取消</button><button class="primary" type="submit">保存任务</button></div></form></dialog>

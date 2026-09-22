@@ -1,3 +1,5 @@
 .npm-cache/
 node_modules/
 .chrome-test*/
+.chrome-*/
+/.design-*.png
