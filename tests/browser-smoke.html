@@ -18,12 +18,26 @@ frame.addEventListener('load', () => {
       check(d.querySelector('#total-count').textContent === '1', '新增任务');
       check(d.querySelector('.priority').textContent === '高优先级', '优先级');
       check(d.querySelector('.card').classList.contains('priority-high'), '整卡优先级颜色');
+      const firstCard = d.querySelector('.card');
+      check(w.getComputedStyle(firstCard).borderTopLeftRadius === '10px', '圆角纸纹卡片');
+      check(w.getComputedStyle(firstCard).backgroundImage.includes('card-high-paper.webp'), '任务卡纸纹');
+      const textLefts = [firstCard.querySelector('.priority'), firstCard.querySelector('h3'), firstCard.querySelector('p')].map(el => el.getBoundingClientRect().left);
+      check(Math.max(...textLefts) - Math.min(...textLefts) < 1, '优先级标题描述左对齐');
       d.querySelector('.card').click();
       check(d.querySelector('.card').classList.contains('actions-visible'), '点击卡片显示操作');
       d.querySelector('.card-actions button').click();
       d.querySelector('#task-title').value = '已编辑任务';
       d.querySelector('#task-form').requestSubmit();
       check(d.querySelector('.card h3').textContent === '已编辑任务', '编辑任务');
+      const search = d.querySelector('#task-search');
+      search.value = '不存在'; search.dispatchEvent(new Event('input', {bubbles:true}));
+      check(!d.querySelector('.card') && d.querySelector('.empty').textContent === '没有匹配的任务', '无搜索结果');
+      check(d.querySelector('#total-count').textContent === '1', '搜索不改变总数');
+      search.value = '测试描述'; search.dispatchEvent(new Event('input', {bubbles:true}));
+      check(d.querySelector('.card h3')?.textContent === '已编辑任务', '描述搜索');
+      search.value = '已编辑'; search.dispatchEvent(new Event('input', {bubbles:true}));
+      check(d.querySelector('.card h3')?.textContent === '已编辑任务', '标题搜索');
+      search.value = ''; search.dispatchEvent(new Event('input', {bubbles:true}));
       const card = d.querySelector('.card');
       const transfer = new DataTransfer();
       card.dispatchEvent(new DragEvent('dragstart', {bubbles:true,dataTransfer:transfer}));
@@ -40,7 +54,7 @@ frame.addEventListener('load', () => {
       check(d.querySelector('.card').classList.contains('actions-visible'), '刷新后卡片操作');
       d.querySelector('.card-actions .delete').click();
       check(d.querySelector('#total-count').textContent === '0', '删除任务');
-      document.querySelector('#result').textContent = 'PASS: 新增、编辑、删除、优先级、拖拽、深色模式、刷新持久化';
+      document.querySelector('#result').textContent = 'PASS: 搜索、增删改、纸纹圆角与对齐、拖拽、深色模式、刷新持久化';
     }
   } catch (error) { document.querySelector('#result').textContent = `FAIL: ${error.message}`; }
 });

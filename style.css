@@ -239,3 +239,31 @@ body.dark { background: #151c24; }
 body.dark .card.priority-high { background: #593b40 url('./assets/card-high-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #9a676d; }
 body.dark .card.priority-medium { background: #5d5137 url('./assets/card-medium-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #9a8455; }
 body.dark .card.priority-low { background: #355344 url('./assets/card-low-paper.webp') repeat; background-size: 320px 320px; background-blend-mode: multiply; border-color: #62836e; }
+
+/* Search and aligned, rounded paper task cards. */
+.summary .task-search {
+  flex: 0 0 310px;
+  width: 310px;
+  height: 42px;
+  margin: 0 0 0 auto;
+  align-self: center;
+  padding: 9px 14px;
+  border: 1px solid #d9cbbc;
+  border-radius: 9px;
+  background: #fffdf8 url('./assets/paper-texture.webp') repeat;
+  background-size: 320px 320px;
+  color: #273b50;
+  font-size: 13px;
+}
+.summary .task-search::placeholder { color: #91877c; }
+.summary .task-search:focus { border-color: #c57f67; box-shadow: 0 0 0 3px #c57f6724; }
+body.dark .summary .task-search { background: #273541; border-color: #50606b; color: #f2efe9; }
+body.dark .summary .task-search::placeholder { color: #b8bdc0; }
+.card { border-radius: 10px; }
+.card .priority { padding: 0 !important; background: transparent !important; border-radius: 0; }
+.card-actions { border-radius: inherit; }
+.card-actions button { border-radius: 7px; }
+@media (max-width: 1050px) {
+  .summary { flex-wrap: wrap; row-gap: 16px; }
+  .summary .task-search { flex: 0 0 100%; width: 100%; margin: 0; }
+}

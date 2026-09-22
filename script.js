@@ -7,6 +7,7 @@ const columns = [
 ];
 const priorities = { high: '高优先级', medium: '中优先级', low: '低优先级' };
 const board = document.querySelector('#board');
+const searchInput = document.querySelector('#task-search');
 const dialog = document.querySelector('#task-dialog');
 const form = document.querySelector('#task-form');
 const titleInput = document.querySelector('#task-title');
@@ -73,17 +74,19 @@ function renderCard(task) {
 function render() {
   activeCardId = null;
   board.replaceChildren();
+  const query = searchInput.value.trim().toLocaleLowerCase();
+  const visibleTasks = query ? tasks.filter(task => task.title.toLocaleLowerCase().includes(query) || String(task.description || '').toLocaleLowerCase().includes(query)) : tasks;
   for (const column of columns) {
     const section = document.createElement('section'); section.className = `column ${column.id}`; section.dataset.status = column.id;
     const heading = document.createElement('div'); heading.className = 'column-head';
     const dot = document.createElement('span'); dot.className = 'dot';
     const label = document.createElement('h2'); label.textContent = column.label;
     const count = document.createElement('span'); count.className = 'count';
-    const items = tasks.filter(task => task.status === column.id); count.textContent = items.length;
+    const items = visibleTasks.filter(task => task.status === column.id); count.textContent = items.length;
     heading.append(dot, label, count); section.append(heading);
     const cards = document.createElement('div'); cards.className = 'cards';
     if (items.length) items.forEach(task => cards.append(renderCard(task)));
-    else { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '拖动任务到这里'; cards.append(empty); }
+    else { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = query ? '没有匹配的任务' : '拖动任务到这里'; cards.append(empty); }
     section.append(cards);
     section.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; section.classList.add('drag-over'); });
     section.addEventListener('dragleave', event => { if (!section.contains(event.relatedTarget)) section.classList.remove('drag-over'); });
@@ -108,6 +111,8 @@ function openEditor(task = null) {
   dialog.showModal(); titleInput.focus();
 }
 document.querySelector('#add-task').addEventListener('click', () => openEditor());
+searchInput.addEventListener('input', render);
+searchInput.addEventListener('keydown', event => { if (event.key === 'Escape' && searchInput.value) { searchInput.value = ''; render(); } });
 document.addEventListener('click', event => { if (!event.target.closest('.card')) setCardActions(null); });
 document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
 document.querySelector('#cancel-dialog').addEventListener('click', () => dialog.close());
